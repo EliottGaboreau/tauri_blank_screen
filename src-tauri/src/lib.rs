@@ -1,7 +1,15 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+fn greet(name: &str, app_handle: tauri::AppHandle) -> () {
+    tauri::WebviewWindowBuilder::new(
+        &app_handle,
+        "command_window",
+        tauri::WebviewUrl::App("/".into()),
+    )
+    .title("Title")
+    .additional_browser_args("--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection --autoplay-policy=no-user-gesture-required")
+    .build();
+    // format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
